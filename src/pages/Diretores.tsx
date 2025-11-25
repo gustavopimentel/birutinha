@@ -5,9 +5,15 @@ import { DIRETORES } from '../config/diretores'
 import setaIcon from '../assets/images/diretores/seta.svg'
 import iconeTransparente from '../assets/images/diretores/icone trnsparente.svg'
 import { Diretor } from '../config/diretores'
+import { useScrollAnimation, useSequentialAnimation } from '../hooks/useScrollAnimation'
 
 export default function Diretores() {
   const [selectedDiretor, setSelectedDiretor] = useState<Diretor | null>(null)
+  const headerAnimation = useScrollAnimation({ delay: 0 })
+  const { containerRef, visibleItems } = useSequentialAnimation(DIRETORES.length, { 
+    delay: 200, 
+    stagger: 150 
+  })
 
   const handleCardClick = (diretor: Diretor) => {
     if (diretor.reelUrl) {
@@ -44,7 +50,14 @@ export default function Diretores() {
       {/* Conteúdo Principal */}
       <section className="relative w-full min-h-screen pl-48 pr-4 pt-4 pb-4 z-10">
         {/* Header */}
-        <div className="relative z-10 pt-32 pb-16 pl-8">
+        <div 
+          ref={headerAnimation.elementRef}
+          className={`relative z-10 pt-32 pb-16 pl-8 transition-all duration-700 ease-out ${
+            headerAnimation.isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-8'
+          }`}
+        >
           <h1 className="text-white text-6xl font-bold mb-4">
             Nossos diretores
           </h1>
@@ -54,12 +67,19 @@ export default function Diretores() {
         </div>
 
         {/* Lista de Diretores */}
-        <div className="relative z-10 pl-8 pr-8 pb-16 space-y-16">
-          {DIRETORES.map((diretor) => (
+        <div 
+          ref={containerRef}
+          className="relative z-10 pl-8 pr-8 pb-16 space-y-16"
+        >
+          {DIRETORES.map((diretor, index) => (
             <div
               key={diretor.id}
               onClick={() => handleCardClick(diretor)}
-              className="inline-flex gap-8 border border-white rounded-3xl p-8 min-h-[350px] hover:backdrop-blur-md hover:bg-black/10 transition-all duration-300 cursor-pointer group relative"
+              className={`inline-flex gap-8 border border-white rounded-3xl p-8 min-h-[350px] hover:backdrop-blur-md hover:bg-black/10 transition-all duration-700 ease-out cursor-pointer group relative ${
+                visibleItems[index] 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}
             >
               {/* Foto - sempre centralizada verticalmente */}
               <div className="flex items-center justify-center h-full">

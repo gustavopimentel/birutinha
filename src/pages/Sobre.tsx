@@ -8,6 +8,7 @@ import nilviaFoto from '../assets/images/sobre/Nilvia.jpg'
 import iconeLaranja from '../assets/images/sobre/icone laranja.svg'
 import iconeAzul from '../assets/images/sobre/icone azul.svg'
 import iconeRosa from '../assets/images/sobre/icone rosa.svg'
+import { useScrollAnimation, useSequentialAnimation } from '../hooks/useScrollAnimation'
 
 interface CardDonoProps {
   foto: string
@@ -74,6 +75,12 @@ function CardDono({ foto, nome, descricao, email, icone, containerRef, maxHeight
 export default function Sobre() {
   const containerRefs = useRef<(HTMLDivElement | null)[]>([])
   const [maxHeight, setMaxHeight] = useState<number>(0)
+  const headerAnimation = useScrollAnimation({ delay: 0 })
+  const { containerRef: cardsContainerRef, visibleItems: cardsVisible } = useSequentialAnimation(3, { 
+    delay: 200, 
+    stagger: 150 
+  })
+  const formAnimation = useScrollAnimation({ delay: 600 })
 
   useEffect(() => {
     const updateMaxHeight = () => {
@@ -121,7 +128,14 @@ export default function Sobre() {
       {/* Conteúdo Principal */}
       <section className="relative w-full min-h-screen pl-48 pr-4 pt-4 pb-4 z-10">
         {/* Header */}
-        <div className="relative z-10 pt-32 pb-16 pl-8">
+        <div 
+          ref={headerAnimation.elementRef}
+          className={`relative z-10 pt-32 pb-16 pl-8 transition-all duration-700 ease-out ${
+            headerAnimation.isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-8'
+          }`}
+        >
           <h1 className="text-white text-6xl font-bold mb-4">
             Sobre
           </h1>
@@ -134,40 +148,68 @@ export default function Sobre() {
         </div>
 
         {/* Cards dos Donos */}
-        <div className="relative z-10 pl-8 pr-8 pb-16">
+        <div 
+          ref={cardsContainerRef}
+          className="relative z-10 pl-8 pr-8 pb-16"
+        >
           <div className="flex gap-[30px]">
-            <CardDono
-              foto={fernandaFoto}
-              nome="Fernanda Carpinelli"
-              descricao="Sócia e responsável pela gestão administrativa e orçamentária da Biruta Filmes. Fernanda possui visão de negócios moldada por sua larga experiência no mercado financeiro, prevendo os mais diversos cenários econômicos para gerenciar a produtora com solidez e segurança."
-              email="fernanda@birutinha.com.br"
-              icone={iconeLaranja}
-              containerRef={(ref) => { containerRefs.current[0] = ref }}
-              maxHeight={maxHeight}
-            />
-            <CardDono
-              foto={fredFoto}
-              nome="Fred Farah"
-              descricao="Traz uma vasta vivência em publicidade, propaganda, rádio, cinema e TV. Já ajudou a construir e consolidar grandes marcas e produtos, trabalhando em conjunto com algumas das melhores agências do país. Além de sócio, atua como Diretor e Produtor Executivo na Biruta Filmes."
-              email="fred@birutinha.com.br"
-              icone={iconeAzul}
-              containerRef={(ref) => { containerRefs.current[1] = ref }}
-              maxHeight={maxHeight}
-            />
-            <CardDono
-              foto={nilviaFoto}
-              nome="Nilvia Centeno"
-              descricao="Nilvia já atuou como Agência, Cliente e Produtora e como Gerente de Operações traz à Biruta Filmes um olhar abrangente e repleto de conhecimento sobre todo o processo de produção, que resulta na excelência de cada projeto e em maior engajamento do público-alvo."
-              email="nilvia@birutinha.com.br"
-              icone={iconeRosa}
-              containerRef={(ref) => { containerRefs.current[2] = ref }}
-              maxHeight={maxHeight}
-            />
+            <div className={`transition-all duration-700 ease-out ${
+              cardsVisible[0] 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-8'
+            }`}>
+              <CardDono
+                foto={fernandaFoto}
+                nome="Fernanda Carpinelli"
+                descricao="Sócia e responsável pela gestão administrativa e orçamentária da Biruta Filmes. Fernanda possui visão de negócios moldada por sua larga experiência no mercado financeiro, prevendo os mais diversos cenários econômicos para gerenciar a produtora com solidez e segurança."
+                email="fernanda@birutinha.com.br"
+                icone={iconeLaranja}
+                containerRef={(ref) => { containerRefs.current[0] = ref }}
+                maxHeight={maxHeight}
+              />
+            </div>
+            <div className={`transition-all duration-700 ease-out ${
+              cardsVisible[1] 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-8'
+            }`}>
+              <CardDono
+                foto={fredFoto}
+                nome="Fred Farah"
+                descricao="Traz uma vasta vivência em publicidade, propaganda, rádio, cinema e TV. Já ajudou a construir e consolidar grandes marcas e produtos, trabalhando em conjunto com algumas das melhores agências do país. Além de sócio, atua como Diretor e Produtor Executivo na Biruta Filmes."
+                email="fred@birutinha.com.br"
+                icone={iconeAzul}
+                containerRef={(ref) => { containerRefs.current[1] = ref }}
+                maxHeight={maxHeight}
+              />
+            </div>
+            <div className={`transition-all duration-700 ease-out ${
+              cardsVisible[2] 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-8'
+            }`}>
+              <CardDono
+                foto={nilviaFoto}
+                nome="Nilvia Centeno"
+                descricao="Nilvia já atuou como Agência, Cliente e Produtora e como Gerente de Operações traz à Biruta Filmes um olhar abrangente e repleto de conhecimento sobre todo o processo de produção, que resulta na excelência de cada projeto e em maior engajamento do público-alvo."
+                email="nilvia@birutinha.com.br"
+                icone={iconeRosa}
+                containerRef={(ref) => { containerRefs.current[2] = ref }}
+                maxHeight={maxHeight}
+              />
+            </div>
           </div>
         </div>
 
         {/* Seção "Quer trabalhar conosco" */}
-        <div className="relative z-10 pl-8 pr-8 pb-16 mt-32">
+        <div 
+          ref={formAnimation.elementRef}
+          className={`relative z-10 pl-8 pr-8 pb-16 mt-32 transition-all duration-700 ease-out ${
+            formAnimation.isVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-8'
+          }`}
+        >
           {/* Linha azul no topo */}
           <div className="absolute top-0 left-0 right-0 h-px bg-cyan-400/50" />
           

@@ -1,8 +1,13 @@
 import { useState } from 'react'
 import { Instagram } from 'lucide-react'
 import logoTipo from '../assets/images/home/Logotipo Birutinha tipologia beje.svg'
+import logoTipo2 from '../assets/images/home/Logotipo Birutinha 2.svg'
 import { SOCIAL_LINKS } from '../config/socialLinks'
 import MenuModal from './MenuModal'
+
+interface MenuLateralProps {
+  isSlideSection?: boolean
+}
 
 function VimeoIcon({ size = 24 }: { size?: number }) {
   return (
@@ -33,8 +38,11 @@ function VimeoIcon({ size = 24 }: { size?: number }) {
   )
 }
 
-export default function MenuLateral() {
+export default function MenuLateral({ isSlideSection = false }: MenuLateralProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  
+  // Usa o logo 1 na seção de slides, logo 2 nas outras seções/páginas
+  const logoAtual = isSlideSection ? logoTipo : logoTipo2
 
   return (
     <>
@@ -42,9 +50,9 @@ export default function MenuLateral() {
         {/* Logo no topo */}
         <div className="flex flex-col items-center">
           <img
-            src={logoTipo}
+            src={logoAtual}
             alt="Birutinha Filmes"
-            className="h-28 w-auto"
+            className="h-28 w-auto transition-opacity duration-500"
           />
         </div>
 

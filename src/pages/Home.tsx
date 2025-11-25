@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <div className="relative w-full overflow-x-hidden">
       {/* Menu e Indicadores - Fixos em todas as seções */}
-      <MenuLateral />
+      <MenuLateral isSlideSection={!showNextSection} />
       {!showNextSection && (
         <SlideIndicators
           currentIndex={currentSlide}
