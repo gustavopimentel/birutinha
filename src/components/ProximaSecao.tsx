@@ -1,35 +1,4 @@
-import { ChevronRight, Plus, Instagram } from 'lucide-react'
-import logoTipo from '../assets/images/home/Logotipo Birutinha tipologia beje.svg'
-import { SOCIAL_LINKS } from '../config/socialLinks'
-
-function VimeoIcon({ size = 24 }: { size?: number }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        fill="none"
-      />
-      <path
-        d="M8 8l4 8 4-8"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-    </svg>
-  )
-}
+import { ChevronRight, Plus } from 'lucide-react'
 
 export default function ProximaSecao() {
   return (
