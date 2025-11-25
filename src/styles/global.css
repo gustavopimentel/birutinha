@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    @apply font-sans text-slate-900;
+  }
+  body,
+  #root {
+    @apply min-h-screen w-full;
+  }
+  html {
+    @apply overflow-x-hidden;
+    scroll-behavior: smooth;
+  }
+}
+
+
