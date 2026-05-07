@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState } from 'react'
+import { useRef, useCallback } from 'react'
 import { SLIDER_CONFIG } from '../config/videos'
 
 interface UseVideoSliderProps {
@@ -6,7 +6,7 @@ interface UseVideoSliderProps {
   totalSlides: number
   onSlideChange: (index: number) => void
   isLastSlide: boolean
-  onScrollToNextSection?: () => void
+  isFirstSlide: boolean
 }
 
 export function useVideoSlider({
@@ -14,37 +14,28 @@ export function useVideoSlider({
   totalSlides,
   onSlideChange,
   isLastSlide,
-  onScrollToNextSection,
+  isFirstSlide,
 }: UseVideoSliderProps) {
   const touchStartX = useRef<number | null>(null)
   const touchStartY = useRef<number | null>(null)
   const lastWheelTime = useRef<number>(0)
-  const [isAnimating, setIsAnimating] = useState(false)
+  const isAnimatingRef = useRef(false)
 
   const nextSlide = useCallback(() => {
-    if (isAnimating) return
+    if (isAnimatingRef.current || isLastSlide) return
 
-    // Se está no último slide e tem próxima seção, vai para ela
-    if (isLastSlide && onScrollToNextSection) {
-      onScrollToNextSection()
-      return
-    }
-
-    setIsAnimating(true)
+    isAnimatingRef.current = true
     onSlideChange((currentIndex + 1) % totalSlides)
-
-    // Libera após animação
-    setTimeout(() => setIsAnimating(false), SLIDER_CONFIG.animationDuration)
-  }, [currentIndex, totalSlides, onSlideChange, isLastSlide, onScrollToNextSection, isAnimating])
+    setTimeout(() => { isAnimatingRef.current = false }, SLIDER_CONFIG.animationDuration)
+  }, [currentIndex, totalSlides, onSlideChange, isLastSlide])
 
   const prevSlide = useCallback(() => {
-    if (isAnimating) return
+    if (isAnimatingRef.current || isFirstSlide) return
 
-    setIsAnimating(true)
+    isAnimatingRef.current = true
     onSlideChange((currentIndex - 1 + totalSlides) % totalSlides)
-
-    setTimeout(() => setIsAnimating(false), SLIDER_CONFIG.animationDuration)
-  }, [currentIndex, totalSlides, onSlideChange, isAnimating])
+    setTimeout(() => { isAnimatingRef.current = false }, SLIDER_CONFIG.animationDuration)
+  }, [currentIndex, totalSlides, onSlideChange, isFirstSlide])
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX
@@ -65,11 +56,8 @@ export function useVideoSlider({
         Math.abs(diffX) > Math.abs(diffY) &&
         Math.abs(diffX) > SLIDER_CONFIG.swipeThreshold
       ) {
-        if (diffX > 0) {
-          nextSlide()
-        } else {
-          prevSlide()
-        }
+        if (diffX > 0) nextSlide()
+        else prevSlide()
       }
 
       touchStartX.current = null
@@ -80,44 +68,19 @@ export function useVideoSlider({
 
   const handleWheel = useCallback(
     (e: WheelEvent) => {
-      // Bloqueia scroll durante animação
-      if (isAnimating) {
-        e.preventDefault()
-        e.stopPropagation()
-        return
-      }
+      if (isAnimatingRef.current) return
 
       const now = Date.now()
-      if (now - lastWheelTime.current < SLIDER_CONFIG.wheelThrottle) {
-        e.preventDefault()
-        e.stopPropagation()
-        return
-      }
+      if (now - lastWheelTime.current < SLIDER_CONFIG.wheelThrottle) return
 
-      // Detecta scroll para baixo ou para cima
       if (Math.abs(e.deltaY) > SLIDER_CONFIG.wheelThreshold) {
-        e.preventDefault()
-        e.stopPropagation()
-
-        if (e.deltaY > 0) {
-          // Scroll para baixo - próximo slide
-          nextSlide()
-        } else {
-          // Scroll para cima - slide anterior
-          prevSlide()
-        }
-
+        if (e.deltaY > 0) nextSlide()
+        else prevSlide()
         lastWheelTime.current = now
       }
     },
-    [nextSlide, prevSlide, isAnimating]
+    [nextSlide, prevSlide]
   )
 
-  return {
-    handleTouchStart,
-    handleTouchEnd,
-    handleWheel,
-    isAnimating,
-  }
+  return { handleTouchStart, handleTouchEnd, handleWheel }
 }
-

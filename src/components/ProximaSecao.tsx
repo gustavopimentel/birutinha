@@ -1,20 +1,39 @@
+import { useEffect, useRef } from 'react'
+import Player from '@vimeo/player'
 import { DIRETORES } from '../config/diretores'
 import { VIDEOS } from '../config/videos'
 import { Link } from 'react-router-dom'
 import setaIcon from '../assets/images/diretores/seta.svg'
-import iconeTransparente from '../assets/images/diretores/icone trnsparente.svg'
+import LayeredText from './LayeredText'
 import { useSequentialAnimation } from '../hooks/useScrollAnimation'
 
 export default function ProximaSecao() {
-  // Usa o primeiro diretor para exibir a foto
   const primeiroDiretor = DIRETORES[0]
-  // Usa o primeiro vídeo para exibir no card
   const primeiroVideo = VIDEOS[0]
-  
-  const getVimeoUrl = (vimeoId: string) =>
-    `https://player.vimeo.com/video/${vimeoId}?background=1&autoplay=1&loop=1&muted=1&controls=0`
-  
-  // Animações sequenciais para os 4 cards principais
+  const videoContainerRef = useRef<HTMLDivElement>(null)
+  const playerRef = useRef<Player | null>(null)
+
+  useEffect(() => {
+    const container = videoContainerRef.current
+    if (!container) return
+
+    const player = new Player(container, {
+      id: parseInt(primeiroVideo.vimeoId),
+      background: true,
+      loop: true,
+      muted: true,
+      autopause: false,
+      dnt: true,
+    })
+
+    playerRef.current = player
+
+    return () => {
+      player.destroy()
+      playerRef.current = null
+    }
+  }, [primeiroVideo.vimeoId])
+
   const { containerRef, visibleItems } = useSequentialAnimation(4, { 
     delay: 100, 
     stagger: 120 
@@ -24,22 +43,6 @@ export default function ProximaSecao() {
     <section
       className="relative w-full h-screen pl-48 pr-4 pt-4 pb-4 overflow-hidden"
     >
-      {/* Background fixo com gradiente e ícone */}
-      <div
-        className="fixed inset-0 w-full h-screen z-0"
-        style={{
-          background: `linear-gradient(to bottom right, #696beb, #ea5ec8, #e84c4a, #ee7a19)`,
-        }}
-      >
-        {/* Ícone de fundo transparente - centralizado */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <img
-            src={iconeTransparente}
-            alt=""
-            className="w-auto h-auto max-w-full max-h-full opacity-30"
-          />
-        </div>
-      </div>
       
       {/* Conteúdo */}
       <div ref={containerRef} className="relative z-10 h-full grid grid-cols-2 gap-4">
@@ -52,26 +55,33 @@ export default function ProximaSecao() {
               : 'opacity-0 translate-y-8'
           }`}
         >
-          {/* Conteúdo principal */}
-          <div className="flex flex-col">
-            <h2 className="text-white text-4xl font-bold mb-6">
-              Título sobre a Birutinha
-            </h2>
-            <div className="text-white space-y-4 text-lg leading-relaxed">
-              <p>
-                O que hoje é tendência no mercado, nós sempre fizemos. Somos uma
-                Casa de Produção que trabalha de forma artesanal, ágil e
-                inteligente. Tratamos todos os projetos, independentemente do
-                seu tamanho, com a mesma atenção e cuidado.
-              </p>
-              <p>
-                São dez anos entregando com paixão filmes publicitários,
-                programas e séries para TV e VOD, cinema, conteúdo para redes
-                sociais, vídeos corporativos, edição, finalização e Motion
-                2D/3D.
-              </p>
-            </div>
+          {/* Tag */}
+          <div className="flex items-center gap-3 mb-auto pt-2">
+            <div className="h-px w-6 bg-[#e84c4a]" />
+            <span className="text-white text-xs font-medium tracking-[0.2em] uppercase">
+              Um braço da Biruta Filmes
+            </span>
+            <div className="h-px flex-1 bg-[#e84c4a]" />
           </div>
+
+          {/* Headline com efeito layered - centralizado */}
+          <div className="flex-1 flex items-center justify-center">
+            <LayeredText
+              lines={[
+                { top: '\u00A0', bottom: 'Nascida', bottomColor: '#ffffff' },
+                { top: 'Nascida', bottom: 'no corre,', topColor: '#ffffff', bottomColor: '#ffffff' },
+                { top: 'no corre,', bottom: 'feita pra', topColor: '#ffffff', bottomColor: '#facc15' },
+                { top: 'feita pra', bottom: 'entregar.', topColor: '#facc15', bottomColor: '#facc15' },
+                { top: 'entregar.', bottom: '\u00A0', topColor: '#facc15' },
+              ]}
+              fontSize="4.75rem"
+              lineHeight="4.375rem"
+            />
+          </div>
+          <p className="text-white text-base leading-relaxed opacity-90">
+            Produção audiovisual ágil, criativa e com verba real.
+            Vinheta ou longa? Conteúdo ou campanha? A gente encara.
+          </p>
 
           {/* Seta no canto inferior direito */}
           <div className="absolute bottom-6 right-6">
@@ -157,21 +167,9 @@ export default function ProximaSecao() {
                   : 'opacity-0 translate-y-8'
               }`}>
                 {/* Vídeo do Vimeo */}
-                <iframe
-                  src={getVimeoUrl(primeiroVideo.vimeoId)}
-                  className="absolute"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    minHeight: '100%',
-                    minWidth: '100%',
-                    top: 0,
-                    left: 0,
-                  }}
-                  frameBorder="0"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                  title={primeiroVideo.title}
+                <div
+                  ref={videoContainerRef}
+                  className="vimeo-bg absolute inset-0 w-full h-full"
                 />
                 {/* Título do filme */}
                 <div className="absolute bottom-6 left-6 z-10">

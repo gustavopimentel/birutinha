@@ -10,8 +10,8 @@ export default function SlideIndicators({
   onSlideChange,
 }: SlideIndicatorsProps) {
   return (
-    <div className="fixed left-48 top-4 bottom-4 right-4 z-50 flex flex-col items-end justify-center bg-white/5 rounded-3xl border border-white/50 pr-8">
-      <div className="flex flex-col gap-2.5">
+    <div className="absolute left-48 top-4 bottom-4 right-4 z-50 flex flex-col items-end justify-center rounded-3xl pr-8 pointer-events-none">
+      <div className="flex flex-col gap-2.5 pointer-events-auto">
         {Array.from({ length: totalSlides }, (_, index) => (
           <button
             key={index}
@@ -28,5 +28,3 @@ export default function SlideIndicators({
     </div>
   )
 }
-
-

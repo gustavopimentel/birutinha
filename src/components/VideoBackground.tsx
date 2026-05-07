@@ -1,82 +1,110 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
+import Player from '@vimeo/player'
 import { VideoSliderProps } from '../types/video'
 import { VIDEOS, SLIDER_CONFIG } from '../config/videos'
 import { useVideoSlider } from '../hooks/useVideoSlider'
 
-const VIDEO_CONTAINER_CLASS = 'video-background-container'
-
-interface VideoBackgroundExtendedProps extends VideoSliderProps {
-  onScrollToNextSection?: () => void
-  isActive?: boolean
-}
-
 export default function VideoBackground({
   currentIndex,
   onSlideChange,
-  onScrollToNextSection,
-  isActive = true,
-}: VideoBackgroundExtendedProps) {
+}: VideoSliderProps) {
   const isLastSlide = currentIndex === VIDEOS.length - 1
+  const isFirstSlide = currentIndex === 0
+  const playersRef = useRef<(Player | null)[]>([])
+  const containerRefs = useRef<(HTMLDivElement | null)[]>([])
+  const sectionRef = useRef<HTMLDivElement>(null)
 
   const { handleTouchStart, handleTouchEnd, handleWheel } = useVideoSlider({
     currentIndex,
     totalSlides: VIDEOS.length,
     onSlideChange,
     isLastSlide,
-    onScrollToNextSection,
+    isFirstSlide,
   })
 
-  // Auto-play slider
   useEffect(() => {
-    if (!isActive) return
-    
+    const players: (Player | null)[] = new Array(VIDEOS.length).fill(null)
+
+    VIDEOS.forEach((video, index) => {
+      const container = containerRefs.current[index]
+      if (!container) return
+
+      const player = new Player(container, {
+        id: parseInt(video.vimeoId),
+        background: true,
+        loop: true,
+        muted: true,
+        autopause: false,
+        dnt: true,
+      })
+
+      players[index] = player
+
+      player.ready().then(() => {
+        if (index !== 0) {
+          player.pause().catch(() => {})
+        }
+      })
+    })
+
+    playersRef.current = players
+
+    return () => {
+      players.forEach(player => {
+        if (player) player.destroy()
+      })
+      playersRef.current = []
+    }
+  }, [])
+
+  useEffect(() => {
+    playersRef.current.forEach((player, index) => {
+      if (!player) return
+      if (index === currentIndex) {
+        player.play().catch(() => {})
+      } else {
+        player.pause().catch(() => {})
+      }
+    })
+  }, [currentIndex])
+
+  useEffect(() => {
     const interval = setInterval(() => {
       onSlideChange((currentIndex + 1) % VIDEOS.length)
     }, SLIDER_CONFIG.autoPlayInterval)
 
     return () => clearInterval(interval)
-  }, [currentIndex, onSlideChange, isActive])
+  }, [currentIndex, onSlideChange])
 
-  // Wheel event listener - captura scroll em toda a tela quando está nos slides
   useEffect(() => {
-    if (!isActive) return
+    const el = sectionRef.current
+    if (!el) return
 
-    const handleWheelGlobal = (e: WheelEvent) => {
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault()
       handleWheel(e)
     }
 
-    window.addEventListener('wheel', handleWheelGlobal, { passive: false })
-    return () => {
-      window.removeEventListener('wheel', handleWheelGlobal)
-    }
-  }, [handleWheel, isActive])
-
-  const getVimeoUrl = (vimeoId: string) =>
-    `https://player.vimeo.com/video/${vimeoId}?background=1&autoplay=1&loop=1&muted=1&controls=0`
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [handleWheel])
 
   return (
     <div
-      className={`${VIDEO_CONTAINER_CLASS} fixed inset-0 w-screen h-screen z-0 overflow-hidden`}
+      ref={sectionRef}
+      className="absolute inset-0 w-full h-full z-0 overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         {VIDEOS.map((video, index) => {
-          // Determina a posição do slide baseado no índice atual
           let translateY = '0%'
-          if (index < currentIndex) {
-            // Slide anterior - sai para cima
-            translateY = '-100%'
-          } else if (index > currentIndex) {
-            // Slide próximo - entra de baixo
-            translateY = '100%'
-          }
-          // Slide atual - posição central
+          if (index < currentIndex) translateY = '-100%'
+          else if (index > currentIndex) translateY = '100%'
 
           return (
-            <iframe
+            <div
               key={video.id}
-              src={getVimeoUrl(video.vimeoId)}
               className="absolute transition-transform duration-1000 ease-in-out"
               style={{
                 width: '100vw',
@@ -86,20 +114,20 @@ export default function VideoBackground({
                 top: '50%',
                 left: '50%',
                 transform: `translate(-50%, calc(-50% + ${translateY}))`,
-                opacity: index === currentIndex ? 1 : index === currentIndex - 1 || index === currentIndex + 1 ? 1 : 0,
+                opacity: index === currentIndex ? 1 : Math.abs(index - currentIndex) === 1 ? 1 : 0,
                 pointerEvents: index === currentIndex ? 'auto' : 'none',
                 zIndex: index === currentIndex ? 10 : index === currentIndex - 1 ? 5 : 1,
               }}
-              frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-              title={video.title}
-            />
+            >
+              <div
+                ref={el => { containerRefs.current[index] = el }}
+                className="vimeo-bg w-full h-full"
+              />
+            </div>
           )
         })}
       </div>
 
-      {/* Título do vídeo atual */}
       <div className="absolute bottom-8 left-52 z-50 pointer-events-none pl-8">
         <h2 className="text-white text-5xl font-bold transition-opacity duration-1000">
           {VIDEOS[currentIndex].title}

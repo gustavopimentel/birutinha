@@ -11,6 +11,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   const { threshold = 0.1, rootMargin = '0px', delay = 0, once = true } = options
   const [isVisible, setIsVisible] = useState(false)
   const elementRef = useRef<HTMLDivElement>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
 
   useEffect(() => {
     const element = elementRef.current
@@ -19,7 +20,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => {
+          timeoutRef.current = setTimeout(() => {
             setIsVisible(true)
           }, delay)
           if (once) {
@@ -38,6 +39,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
       if (element) {
         observer.unobserve(element)
       }
+      clearTimeout(timeoutRef.current)
     }
   }, [threshold, rootMargin, delay, once])
 
@@ -56,6 +58,7 @@ export function useSequentialAnimation(
   const { threshold = 0.1, rootMargin = '-50px', delay = 0, stagger = 100 } = options
   const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(count).fill(false))
   const containerRef = useRef<HTMLDivElement>(null)
+  const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
     const container = containerRef.current
@@ -64,16 +67,16 @@ export function useSequentialAnimation(
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // Anima os itens sequencialmente
-          visibleItems.forEach((_, index) => {
-            setTimeout(() => {
+          for (let i = 0; i < count; i++) {
+            const id = setTimeout(() => {
               setVisibleItems(prev => {
                 const newState = [...prev]
-                newState[index] = true
+                newState[i] = true
                 return newState
               })
-            }, delay + index * stagger)
-          })
+            }, delay + i * stagger)
+            timeoutsRef.current.push(id)
+          }
           observer.unobserve(container)
         }
       },
@@ -86,6 +89,8 @@ export function useSequentialAnimation(
       if (container) {
         observer.unobserve(container)
       }
+      timeoutsRef.current.forEach(id => clearTimeout(id))
+      timeoutsRef.current = []
     }
   }, [count, threshold, rootMargin, delay, stagger])
 

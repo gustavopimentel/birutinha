@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Mail } from 'lucide-react'
 import MenuLateral from '../components/MenuLateral'
-import iconeTransparente from '../assets/images/diretores/icone trnsparente.svg'
+import GradientBackground from '../components/GradientBackground'
 import fernandaFoto from '../assets/images/sobre/Fernanda.jpg'
 import fredFoto from '../assets/images/sobre/Fred.jpg'
 import nilviaFoto from '../assets/images/sobre/Nilvia.jpg'
@@ -108,22 +108,7 @@ export default function Sobre() {
       {/* Menu Lateral - Fixo */}
       <MenuLateral />
 
-      {/* Background fixo */}
-      <div
-        className="fixed inset-0 w-full h-screen z-0"
-        style={{
-          background: `linear-gradient(to bottom right, #696beb, #ea5ec8, #e84c4a, #ee7a19)`,
-        }}
-      >
-        {/* Ícone de fundo transparente - centralizado */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <img
-            src={iconeTransparente}
-            alt=""
-            className="w-auto h-auto max-w-full max-h-full opacity-30"
-          />
-        </div>
-      </div>
+      <GradientBackground />
 
       {/* Conteúdo Principal */}
       <section className="relative w-full min-h-screen pl-48 pr-4 pt-4 pb-4 z-10">
