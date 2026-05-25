@@ -65,9 +65,9 @@ export default function SecaoServicos() {
             }`}
             style={{ transitionDelay: '200ms' }}
           >
-            Pra cada brief,
+            Para cada projeto,
             <br />
-            uma resposta
+            uma solução
           </h2>
           <p
             className={`text-white/80 text-xs leading-relaxed max-w-[340px] transition-all duration-1000 ease-out ${
@@ -75,7 +75,9 @@ export default function SecaoServicos() {
             }`}
             style={{ transitionDelay: '400ms' }}
           >
-            Da ideia ao "tá no ar" em tempo recorde. A gente cobre toda a cadeia audiovisual — do roteiro à entrega final — sem perder a mão na qualidade nem a velocidade que o seu projeto pede.
+            Do briefing à entrega em tempo real.
+            <br /><br />
+            Aplicamos IA em etapas da criação, edição e finalização para acelerar o processo e expandir soluções.
           </p>
         </div>
 

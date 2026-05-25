@@ -40,16 +40,21 @@ export default function SecaoQuemSomos() {
               style={{ transitionDelay: '400ms' }}
             >
               <p>
-                A Birutinha nasceu da vontade de produzir com agilidade, sem perder
-                qualidade. Somos a irmã mais nova e mais acelerada da Biruta Filmes.
+                A Birutinha nasceu da vontade de produzir com agilidade, sem perder qualidade.
+                Somos o núcleo mais ágil da Biruta Filmes.
               </p>
               <p>
-                Criada pra resolver. Pra simplificar. Pra encaixar produção boa em verba
-                real. Menos enrolação, mais criatividade.
+                Criada pra resolver. Pra simplificar.
+                Pra fazer produção boa caber na verba real.
               </p>
               <p>
-                A Birutinha chegou pra preencher a lacuna entre o que o cliente precisa
-                e o que ninguém tava entregando.
+                Menos enrolação. Mais criação que anda.
+                Menos estrutura inflada. Mais eficiência.
+              </p>
+              <p>
+                A gente existe pra preencher um espaço simples:
+                entre o que o cliente precisa
+                e o que o mercado não entrega.
               </p>
             </div>
           </div>

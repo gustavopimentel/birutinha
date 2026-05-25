@@ -162,10 +162,16 @@ export default function SecaoMasonry() {
             }`}
             style={{ transitionDelay: '200ms' }}
           >
-            O jeito Birutinha
-            <br />
-            de entregar
+            Projetos que viraram entrega
           </h2>
+          <p
+            className={`text-white/70 text-sm md:text-base leading-relaxed mt-4 max-w-2xl transition-all duration-1000 ease-out ${
+              sectionAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+            style={{ transitionDelay: '350ms' }}
+          >
+            Produção potencializada por tecnologia e inteligência aplicada!
+          </p>
         </div>
 
         {/* Subseção: Portfolio videos */}

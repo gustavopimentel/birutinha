@@ -222,7 +222,7 @@ export default function SecaoEquipe() {
 
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-10">
           <span className="text-white/70 text-xs font-semibold tracking-[0.2em] uppercase mb-6 block">
-            Equipe multidisciplinar
+            Time
           </span>
 
           <div className={`text-white uppercase leading-[1.15] tracking-wide ${PHRASES[phraseIdx].size}`}>

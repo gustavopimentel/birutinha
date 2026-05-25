@@ -2,11 +2,11 @@ import MenuLateral from '../components/MenuLateral'
 import GradientBackground from '../components/GradientBackground'
 import SecaoQuemSomos from '../components/SecaoQuemSomos'
 import SecaoPeixe3D from '../components/SecaoPeixe3D'
+import SecaoTecnologia from '../components/SecaoTecnologia'
 import SecaoServicos from '../components/SecaoServicos'
-import SecaoMotivos from '../components/SecaoMotivos'
 import SecaoContato from '../components/SecaoContato'
-import SecaoEquipe from '../components/SecaoEquipe'
 import SecaoMasonry from '../components/SecaoMasonry'
+import SecaoTime from '../components/SecaoTime'
 
 export default function Home() {
   return (
@@ -15,14 +15,16 @@ export default function Home() {
       <MenuLateral />
 
       <SecaoPeixe3D />
+      <SecaoTecnologia />
+      <div id="portfolio"><SecaoMasonry /></div>
       <div id="quem-somos"><SecaoQuemSomos /></div>
+      <SecaoTime />
+      {/* <div id="equipe"><SecaoEquipe /></div> */}
       <div id="servicos"><SecaoServicos /></div>
-      <div id="motivos"><SecaoMotivos /></div>
+      {/* <div id="motivos"><SecaoMotivos /></div> */}
 
       {/* Video slider oculto por enquanto */}
 
-      <div id="portfolio"><SecaoMasonry /></div>
-      <div id="equipe"><SecaoEquipe /></div>
       <div id="contato"><SecaoContato /></div>
     </div>
   )

@@ -191,41 +191,36 @@ export default function SecaoPeixe3D() {
   return (
     <section className="relative w-full h-screen pl-4 pr-4 pt-20 pb-4 lg:pl-48 lg:pt-4 z-10">
       {/* Layout centralizado */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center">
-        {/* Grupo: peixinho 3D + título */}
-        <div className="flex flex-col items-center lg:flex-row lg:items-end gap-4">
-          {/* Peixinho 3D com máscara */}
-          <div
-            ref={canvasRef}
-            className="w-full h-[14rem] md:w-[30rem] md:h-[18rem] lg:w-[40rem] lg:h-[23rem] flex-shrink-0 bg-white/20"
-            style={MASK_STYLE}
-          />
+      <div className="relative z-10 h-full flex flex-col items-center justify-center gap-4 lg:gap-6">
+        {/* Peixinho 3D com máscara */}
+        <div
+          ref={canvasRef}
+          className="w-full h-[12rem] md:w-[30rem] md:h-[16rem] lg:w-[36rem] lg:h-[20rem] flex-shrink-0 bg-white/20"
+          style={MASK_STYLE}
+        />
 
-          {/* Título */}
-          <div className="text-center lg:text-left lg:pb-10">
-            <span className="text-white/70 text-xs md:text-sm font-medium tracking-wide">
-              Birutinha Filmes
-            </span>
-            <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold leading-[0.95] mt-2">
-              Nascida
-              <br />
-              no corre,
-              <br />
-              feita pra
-              <br />
-              entregar.
-            </h2>
-          </div>
+        {/* Título */}
+        <div className="text-center px-4">
+          <span className="text-white/70 text-xs md:text-sm font-medium tracking-wide block mb-2">
+            Birutinha Filmes
+          </span>
+          <h2 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold leading-[1.15]">
+            A produtora que chega fazendo.
+            <br />
+            <span className="text-white/80">Energia para criar!</span>
+            {' '}
+            <span className="text-white/80">Experiência para entregar!</span>
+          </h2>
         </div>
 
-        {/* Frase */}
-        <p className="text-white/80 text-sm md:text-base lg:text-lg leading-relaxed mt-6 lg:mt-10 text-center w-full max-w-[50rem] px-4 lg:px-0">
-          Produção audiovisual ágil, criativa e com verba real.
-          Vinheta ou longa? Conteúdo ou campanha? A gente encara.
+        {/* Parágrafo */}
+        <p className="text-white/70 text-xs md:text-sm lg:text-base leading-relaxed text-center w-full max-w-[42rem] px-4 lg:px-0">
+          Produção audiovisual ágil, criativa e com tecnologia aplicada — dentro da verba real.
+          {' '}Se é para sair do papel, a gente acelera.
         </p>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/50">
             <polyline points="6 9 12 15 18 9" />
           </svg>
