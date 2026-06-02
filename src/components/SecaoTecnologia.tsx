@@ -1,3 +1,5 @@
+'use client'
+
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 export default function SecaoTecnologia() {
@@ -34,17 +36,17 @@ export default function SecaoTecnologia() {
           </h2>
 
           <p
-            className={`text-white/80 text-sm md:text-base leading-relaxed mb-8 max-w-2xl transition-all duration-1000 ease-out ${
+            className={`text-white/80 text-lg md:text-xl leading-relaxed mb-8 max-w-2xl transition-all duration-1000 ease-out ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
             style={{ transitionDelay: '400ms' }}
           >
-            A gente usa tecnologia artificial para ganhar velocidade, otimizar processos
+            Se for preciso a gente usa tecnologia artificial para ganhar velocidade, otimizar processos
             e ampliar possibilidades criativas.
           </p>
 
           <p
-            className={`text-white text-base md:text-lg font-black tracking-wide transition-all duration-1000 ease-out ${
+            className={`text-white text-xl md:text-2xl font-black tracking-wide transition-all duration-1000 ease-out ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
             style={{ transitionDelay: '600ms' }}

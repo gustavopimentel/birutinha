@@ -16,26 +16,3 @@
     font-size: clamp(16px, 1.1vw, 22px);
   }
 }
-
-.vimeo-bg {
-  position: relative;
-  overflow: hidden;
-}
-
-.vimeo-bg iframe {
-  width: 100% !important;
-  height: 100% !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  border: none !important;
-}
-
-.vimeo-bg > div[style] {
-  padding: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-}

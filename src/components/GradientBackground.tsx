@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState, useRef } from 'react'
 import iconeTransparente from '../assets/images/diretores/icone trnsparente.svg'
 
@@ -62,7 +64,7 @@ export default function GradientBackground() {
     >
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <img
-          src={iconeTransparente}
+          src={iconeTransparente.src}
           alt=""
           className="w-auto h-auto max-w-full max-h-full"
           style={{ opacity: iconOpacity }}

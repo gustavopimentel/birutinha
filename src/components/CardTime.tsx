@@ -1,7 +1,10 @@
+'use client'
+
 import { useRef, useState, useCallback } from 'react'
+import Image, { type StaticImageData } from 'next/image'
 
 interface CardTimeProps {
-  foto: string
+  foto: StaticImageData
   nome: string
   cargo: string
   reelsHref?: string
@@ -60,6 +63,7 @@ export default function CardTime({ foto, nome, cargo, reelsHref = '#' }: CardTim
         {/* Foto */}
         <div
           style={{
+            position: 'relative',
             width: '100%',
             aspectRatio: '3 / 4',
             borderRadius: 68,
@@ -70,7 +74,7 @@ export default function CardTime({ foto, nome, cargo, reelsHref = '#' }: CardTim
             boxShadow: !leaving && movingRef.current ? `${-t.x * 12}px ${-t.y * 12}px 40px rgba(0,0,0,0.25)` : 'none',
           }}
         >
-          <img src={foto} alt={nome} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
+          <Image src={foto} alt={nome} fill sizes="280px" style={{ objectFit: 'cover', objectPosition: 'top' }} />
         </div>
 
         {/* Cargo */}

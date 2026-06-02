@@ -1,15 +1,14 @@
+'use client'
+
 import { useRef, useEffect } from 'react'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import CardTime from './CardTime'
 import peixinhoSvg from '../assets/images/home/peixinho.svg'
 
-import jaqueline from '../assets/images/time/Jaqueline copy.jpg'
-import julia from '../assets/images/time/Julia Ribeiro.jpg'
-import lavia from '../assets/images/time/Lavia Martins.jpg'
-import mari from '../assets/images/time/Mari Okada.jpg'
-import pedro from '../assets/images/time/Pedro Lucas.jpg'
-import rafael from '../assets/images/time/Rafael Almeida.jpg'
-import thiago from '../assets/images/time/Thiago Souza.jpg'
+import guil from '../assets/images/time/Guil Valente.png'
+import guto from '../assets/images/time/Guto Gomes.png'
+import giovanna from '../assets/images/time/Giovanna Postiglione.png'
+import dani from '../assets/images/time/Dani Libardi.png'
 
 interface PeixinhoConfig {
   size: number      // px
@@ -35,13 +34,10 @@ const PEIXINHOS: PeixinhoConfig[] = [
 ]
 
 const MEMBROS = [
-  { foto: rafael, nome: 'Rafael Almeida', cargo: 'Diretor de cena' },
-  { foto: lavia,  nome: 'Lívia Martins',  cargo: 'Diretora de Arte' },
-  { foto: thiago, nome: 'Thiago Souza',   cargo: 'Assistente de direção' },
-  { foto: julia,  nome: 'Julia Ribeiro',  cargo: 'Produtora executiva' },
-  { foto: pedro,  nome: 'Pedro Lucas',    cargo: 'Assistente de arte' },
-  { foto: mari,   nome: 'Mari Okada',     cargo: 'Coordenação de produção' },
-  { foto: jaqueline, nome: 'Jaqueline',   cargo: 'Produtora' },
+  { foto: guil,     nome: 'Guil Valente',          cargo: 'Diretor de IA e Live Action' },
+  { foto: guto,     nome: 'Guto Gomes',            cargo: 'Diretor' },
+  { foto: giovanna, nome: 'Giovanna Postiglione',  cargo: 'Diretora' },
+  { foto: dani,     nome: 'Dani Libardi',          cargo: 'Diretora' },
 ]
 
 export default function SecaoTime() {
@@ -96,7 +92,7 @@ export default function SecaoTime() {
         <img
           key={i}
           ref={el => { decorRefs.current[i] = el }}
-          src={peixinhoSvg}
+          src={peixinhoSvg.src}
           alt=""
           className="absolute pointer-events-none select-none will-change-transform"
           style={{

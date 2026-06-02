@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import peixinhoSvg from '../assets/images/home/peixinho.svg'
@@ -100,8 +102,8 @@ const FRAGMENT_SHADER = `
 `
 
 const MASK_STYLE: React.CSSProperties = {
-  maskImage: `url(${peixinhoSvg})`,
-  WebkitMaskImage: `url(${peixinhoSvg})`,
+  maskImage: `url(${peixinhoSvg.src})`,
+  WebkitMaskImage: `url(${peixinhoSvg.src})`,
   maskSize: 'contain',
   WebkitMaskSize: 'contain',
   maskRepeat: 'no-repeat',
@@ -205,8 +207,6 @@ export default function SecaoPeixe3D() {
             Birutinha Filmes
           </span>
           <h2 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold leading-[1.15]">
-            A produtora que chega fazendo.
-            <br />
             <span className="text-white/80">Energia para criar!</span>
             {' '}
             <span className="text-white/80">Experiência para entregar!</span>

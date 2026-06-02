@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
@@ -70,7 +72,7 @@ export default function SecaoServicos() {
             uma solução
           </h2>
           <p
-            className={`text-white/80 text-xs leading-relaxed max-w-[340px] transition-all duration-1000 ease-out ${
+            className={`text-white/80 text-base md:text-lg leading-relaxed max-w-[340px] transition-all duration-1000 ease-out ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
             style={{ transitionDelay: '400ms' }}
@@ -119,7 +121,7 @@ export default function SecaoServicos() {
                       opacity: isOpen ? 1 : 0,
                     }}
                   >
-                    <p className="text-white/70 text-sm leading-relaxed px-6 pb-5 pl-[4rem]">
+                    <p className="text-white/70 text-lg leading-relaxed px-6 pb-5 pl-[4rem]">
                       {servico.descricao}
                     </p>
                   </div>

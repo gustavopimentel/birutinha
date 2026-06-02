@@ -1,7 +1,13 @@
+'use client'
+
 import { useState } from 'react'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { Instagram } from 'lucide-react'
-import logoTipo2 from '../assets/images/home/Logotipo Birutinha 2.svg'
+import logoTipo2Img from '../assets/images/home/Logotipo Birutinha 2.svg'
 import { SOCIAL_LINKS } from '../config/socialLinks'
+
+const logoTipo2 = logoTipo2Img.src
 
 function VimeoIcon({ size = 24 }: { size?: number }) {
   return (
@@ -26,11 +32,32 @@ const MENU_ITEMS = [
   { label: 'Contato', target: 'contato' },
 ]
 
+const PAGE_ITEMS = [
+  { label: 'Sobre', href: '/sobre' },
+  { label: 'Diretores', href: '/diretores' },
+  { label: 'Fale conosco', href: '/contato' },
+]
+
 function scrollToSection(target: string) {
   document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' })
 }
 
+// Navega para uma seção: rola na home, ou abre a home no hash a partir de outra página
+function useSectionNav(onClose: () => void) {
+  const pathname = usePathname()
+  const router = useRouter()
+  return (target: string) => {
+    onClose()
+    if (pathname === '/') {
+      setTimeout(() => scrollToSection(target), 400)
+    } else {
+      router.push(`/#${target}`)
+    }
+  }
+}
+
 function MenuNav({ isOpen, onClose, textSize = 'text-4xl' }: { isOpen: boolean; onClose: () => void; textSize?: string }) {
+  const goToSection = useSectionNav(onClose)
   return (
     <nav className="flex flex-col gap-8">
       {MENU_ITEMS.map((item, index) => (
@@ -40,10 +67,7 @@ function MenuNav({ isOpen, onClose, textSize = 'text-4xl' }: { isOpen: boolean; 
             isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
           }`}
           style={{ transitionDelay: isOpen ? `${300 + index * 80}ms` : '0ms' }}
-          onClick={() => {
-            onClose()
-            setTimeout(() => scrollToSection(item.target), 400)
-          }}
+          onClick={() => goToSection(item.target)}
         >
           {item.label}
         </button>
@@ -54,12 +78,25 @@ function MenuNav({ isOpen, onClose, textSize = 'text-4xl' }: { isOpen: boolean; 
         }`}
         style={{ transitionDelay: isOpen ? `${300 + MENU_ITEMS.length * 80}ms` : '0ms' }}
       />
+      {PAGE_ITEMS.map((item, i) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          onClick={onClose}
+          className={`text-white/80 ${textSize} font-bold hover:text-white transition-all duration-500 ease-out text-left ${
+            isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+          }`}
+          style={{ transitionDelay: isOpen ? `${300 + (MENU_ITEMS.length + 1 + i) * 80}ms` : '0ms' }}
+        >
+          {item.label}
+        </Link>
+      ))}
       <a
         href="tel:+551150510404"
         className={`text-white/70 text-lg font-medium hover:text-white transition-all duration-500 ${
           isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
         }`}
-        style={{ transitionDelay: isOpen ? `${300 + (MENU_ITEMS.length + 1) * 80}ms` : '0ms' }}
+        style={{ transitionDelay: isOpen ? `${300 + (MENU_ITEMS.length + PAGE_ITEMS.length + 1) * 80}ms` : '0ms' }}
         onClick={onClose}
       >
         11 5051-0404
@@ -68,7 +105,7 @@ function MenuNav({ isOpen, onClose, textSize = 'text-4xl' }: { isOpen: boolean; 
         className={`flex gap-4 transition-all duration-500 ${
           isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
         }`}
-        style={{ transitionDelay: isOpen ? `${300 + (MENU_ITEMS.length + 2) * 80}ms` : '0ms' }}
+        style={{ transitionDelay: isOpen ? `${300 + (MENU_ITEMS.length + PAGE_ITEMS.length + 2) * 80}ms` : '0ms' }}
       >
         <a href={SOCIAL_LINKS.vimeo} target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/70 transition-colors">
           <VimeoIcon size={22} />
@@ -180,6 +217,7 @@ export function MenuMobileVar3() {
 // ===== MENU DESKTOP (original) =====
 function MenuDesktop() {
   const [isOpen, setIsOpen] = useState(false)
+  const goToSection = useSectionNav(() => setIsOpen(false))
 
   return (
     <div
@@ -225,13 +263,26 @@ function MenuDesktop() {
               key={item.target}
               className={`text-white text-6xl font-bold hover:text-white/80 transition-all duration-500 ease-out text-left ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
               style={{ transitionDelay: isOpen ? `${400 + index * 80}ms` : '0ms' }}
-              onClick={() => { setIsOpen(false); setTimeout(() => scrollToSection(item.target), 400) }}
+              onClick={() => goToSection(item.target)}
             >
               {item.label}
             </button>
           ))}
           <div className={`w-64 h-px bg-white/30 transition-all duration-500 origin-left ${isOpen ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}`} style={{ transitionDelay: isOpen ? `${400 + MENU_ITEMS.length * 80}ms` : '0ms' }} />
-          <a href="tel:+551150510404" className={`text-white/70 text-xl font-medium hover:text-white transition-all duration-500 ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`} style={{ transitionDelay: isOpen ? `${400 + (MENU_ITEMS.length + 1) * 80}ms` : '0ms' }} onClick={() => setIsOpen(false)}>
+          <div className="flex flex-row flex-wrap gap-x-8 gap-y-2">
+            {PAGE_ITEMS.map((item, i) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className={`text-white/80 text-2xl font-bold hover:text-white transition-all duration-500 ease-out ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
+                style={{ transitionDelay: isOpen ? `${400 + (MENU_ITEMS.length + 1 + i) * 80}ms` : '0ms' }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <a href="tel:+551150510404" className={`text-white/70 text-xl font-medium hover:text-white transition-all duration-500 ${isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`} style={{ transitionDelay: isOpen ? `${400 + (MENU_ITEMS.length + PAGE_ITEMS.length + 1) * 80}ms` : '0ms' }} onClick={() => setIsOpen(false)}>
             11 5051-0404
           </a>
         </nav>

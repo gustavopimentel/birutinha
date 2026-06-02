@@ -1,3 +1,5 @@
+'use client'
+
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 export default function SecaoQuemSomos() {
@@ -34,7 +36,7 @@ export default function SecaoQuemSomos() {
               fazendo.
             </h2>
             <div
-              className={`text-white/80 text-xs leading-relaxed space-y-4 max-w-[340px] transition-all duration-1000 ease-out ${
+              className={`text-white/80 text-base md:text-lg leading-relaxed space-y-4 max-w-[340px] transition-all duration-1000 ease-out ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}
               style={{ transitionDelay: '400ms' }}

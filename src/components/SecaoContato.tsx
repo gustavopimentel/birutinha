@@ -1,3 +1,5 @@
+'use client'
+
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
 export default function SecaoContato() {
@@ -31,7 +33,7 @@ export default function SecaoContato() {
         </h2>
 
         <p
-          className={`text-white/60 text-base leading-relaxed max-w-md mb-10 transition-all duration-1000 ease-out ${
+          className={`text-white/60 text-xl leading-relaxed max-w-md mb-10 transition-all duration-1000 ease-out ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
           style={{ transitionDelay: '400ms' }}
@@ -72,7 +74,7 @@ export default function SecaoContato() {
             <span className="text-white/40 text-[0.65rem] font-semibold tracking-[0.15em] uppercase block mb-1">
               E-mail
             </span>
-            <span className="text-white/80 text-sm">
+            <span className="text-white/80 text-lg">
               contato@birutinha.com.br
             </span>
           </div>
@@ -80,7 +82,7 @@ export default function SecaoContato() {
             <span className="text-white/40 text-[0.65rem] font-semibold tracking-[0.15em] uppercase block mb-1">
               Telefone
             </span>
-            <span className="text-white/80 text-sm">
+            <span className="text-white/80 text-lg">
               11 5051-0404
             </span>
           </div>
@@ -89,12 +91,12 @@ export default function SecaoContato() {
               Instagram
             </span>
             <a
-              href="https://instagram.com/birutinha"
+              href="https://www.instagram.com/birutinhafilmes"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white/80 text-sm hover:text-white transition-colors"
+              className="text-white/80 text-lg hover:text-white transition-colors"
             >
-              @birutinha
+              @birutinhafilmes
             </a>
           </div>
         </div>
@@ -108,7 +110,7 @@ export default function SecaoContato() {
           <span className="text-white/40 text-[0.65rem] font-semibold tracking-[0.15em] uppercase block mb-1">
             Endereço
           </span>
-          <span className="text-white/80 text-sm">
+          <span className="text-white/80 text-lg">
             Av. Indianópolis, 2603 - Indianópolis, São Paulo - SP, 04063-005
           </span>
         </div>

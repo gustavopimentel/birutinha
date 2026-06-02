@@ -1,6 +1,8 @@
+'use client'
+
 import { useState, useCallback, useRef, useEffect } from 'react'
+import Image, { type StaticImageData } from 'next/image'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
-import portfolioVideo from '../assets/videos/video.mp4'
 
 // Picture 01 - Atacadão
 import p01f1 from '../assets/images/mansory portifolio/picture 01/ATACADAO_SEMPRE_EM_FRENTE_FILME_60_FINAL.mp4.00_00_25_14.Still004.jpg'
@@ -42,12 +44,70 @@ import p08f1 from '../assets/images/mansory portifolio/picture 08/NAZCA_30_FINAL
 import p08f2 from '../assets/images/mansory portifolio/picture 08/NAZCA_30_FINAL.mp4.00_00_11_05.Still004.jpg'
 import p08f3 from '../assets/images/mansory portifolio/picture 08/NAZCA_30_FINAL.mp4.00_00_30_02.Still007.jpg'
 
+// Ballantines
+import bal1 from '../assets/images/mansory portifolio/Ballantines/Ballantines 01.png'
+import bal2 from '../assets/images/mansory portifolio/Ballantines/Ballantines 02.png'
+
+// Electrolux
+import ele1 from '../assets/images/mansory portifolio/Electrolux/Electrolux 01.png'
+import ele2 from '../assets/images/mansory portifolio/Electrolux/Electrolux 02.png'
+import ele3 from '../assets/images/mansory portifolio/Electrolux/Electrolux 03.png'
+
+// Fumasil
+import fum1 from '../assets/images/mansory portifolio/Fumasil/Fumasil 01.png'
+import fum2 from '../assets/images/mansory portifolio/Fumasil/Fumasil 02.png'
+
+// Hardon
+import har1 from '../assets/images/mansory portifolio/Hardon/Hardon 01.png'
+import har2 from '../assets/images/mansory portifolio/Hardon/Hardon 02.png'
+import har3 from '../assets/images/mansory portifolio/Hardon/Hardon 05.png'
+
+// Krisiun
+import kri1 from '../assets/images/mansory portifolio/Krisiun/KRISIUN 01.png'
+import kri2 from '../assets/images/mansory portifolio/Krisiun/KRISIUN 02.png'
+import kri3 from '../assets/images/mansory portifolio/Krisiun/KRISIUN 03.png'
+
+// Kumon
+import kum1 from '../assets/images/mansory portifolio/Kumon/KUMON 01.png'
+import kum2 from '../assets/images/mansory portifolio/Kumon/KUMON 03.png'
+import kum3 from '../assets/images/mansory portifolio/Kumon/KUMON 04.png'
+
+// Medley
+import med1 from '../assets/images/mansory portifolio/Medley/MEDLEY 01.png'
+import med2 from '../assets/images/mansory portifolio/Medley/MEDLEY 02.png'
+import med3 from '../assets/images/mansory portifolio/Medley/MEDLEY 03.png'
+
+// Natal
+import nat1 from '../assets/images/mansory portifolio/Natal/Natal_SdeSamba 01.png'
+import nat2 from '../assets/images/mansory portifolio/Natal/Natal_SdeSamba 02.png'
+import nat3 from '../assets/images/mansory portifolio/Natal/Natal_SdeSamba 03.png'
+
+// Silvia Popovic
+import sil1 from '../assets/images/mansory portifolio/Silvia/Silvia Popòvic 01.png'
+
+// Valda
+import val1 from '../assets/images/mansory portifolio/Valda/Valda 01.png'
+import val2 from '../assets/images/mansory portifolio/Valda/Valda 02.png'
+import val3 from '../assets/images/mansory portifolio/Valda/Valda 03.png'
+
 interface MasonryItem {
   id: string
-  frames: string[]
+  frames: StaticImageData[]
 }
 
+const FRAME_SIZES = '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
+
 const PORTFOLIO_ITEMS: MasonryItem[] = [
+  { id: 'ballantines', frames: [bal1, bal2] },
+  { id: 'electrolux', frames: [ele1, ele2, ele3] },
+  { id: 'fumasil', frames: [fum1, fum2] },
+  { id: 'hardon', frames: [har1, har2, har3] },
+  { id: 'krisiun', frames: [kri1, kri2, kri3] },
+  { id: 'kumon', frames: [kum1, kum2, kum3] },
+  { id: 'medley', frames: [med1, med2, med3] },
+  { id: 'natal', frames: [nat1, nat2, nat3] },
+  { id: 'silvia-popovic', frames: [sil1] },
+  { id: 'valda', frames: [val1, val2, val3] },
   { id: 'atacadao', frames: [p01f1, p01f2, p01f3] },
   { id: 'bb-seguros', frames: [p02f1, p02f2, p02f3] },
   { id: 'caedu', frames: [p03f1, p03f2, p03f3] },
@@ -65,9 +125,10 @@ function MasonryCard({ item }: { item: MasonryItem }) {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
     const progress = x / rect.width
-    const frameIndex = Math.min(Math.floor(progress * 3), 2)
+    const n = item.frames.length
+    const frameIndex = Math.min(Math.floor(progress * n), n - 1)
     setActiveFrame(frameIndex)
-  }, [])
+  }, [item.frames.length])
 
   const handleMouseLeave = useCallback(() => {
     setActiveFrame(0)
@@ -80,23 +141,24 @@ function MasonryCard({ item }: { item: MasonryItem }) {
       onMouseLeave={handleMouseLeave}
     >
       {/* Primeira imagem visível define a altura natural do card */}
-      <img
+      <Image
         src={item.frames[0]}
         alt={`${item.id} frame 1`}
+        sizes={FRAME_SIZES}
         className="w-full h-auto block transition-opacity duration-200"
         style={{ opacity: activeFrame === 0 ? 1 : 0 }}
-        loading="lazy"
       />
 
       {/* Frames 2 e 3 posicionados absolutamente sobre o primeiro */}
       {item.frames.slice(1).map((frame, i) => (
-        <img
+        <Image
           key={i + 1}
           src={frame}
           alt={`${item.id} frame ${i + 2}`}
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-200"
+          fill
+          sizes={FRAME_SIZES}
+          className="object-cover transition-opacity duration-200"
           style={{ opacity: i + 1 === activeFrame ? 1 : 0 }}
-          loading="lazy"
         />
       ))}
 
@@ -165,7 +227,7 @@ export default function SecaoMasonry() {
             Projetos que viraram entrega
           </h2>
           <p
-            className={`text-white/70 text-sm md:text-base leading-relaxed mt-4 max-w-2xl transition-all duration-1000 ease-out ${
+            className={`text-white/70 text-lg md:text-xl leading-relaxed mt-4 max-w-2xl transition-all duration-1000 ease-out ${
               sectionAnimation.isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
             style={{ transitionDelay: '350ms' }}
@@ -187,13 +249,22 @@ export default function SecaoMasonry() {
           <div ref={videoContainerRef} className="w-full rounded-2xl overflow-hidden">
             <video
               ref={videoRef}
-              src={portfolioVideo}
+              src="/video.mp4"
               className="w-full h-auto"
               muted
               loop
               playsInline
               preload="metadata"
             />
+          </div>
+          <div className="mt-4 px-1">
+            <p className="text-white/90 text-lg md:text-xl leading-snug">
+              <span className="font-bold">Iemanjá</span>
+              {' '}
+              <span className="text-white/60">—</span>
+              {' '}
+              <span className="text-white/70">Curta metragem composto com cenas de IA e live action</span>
+            </p>
           </div>
         </div>
 
