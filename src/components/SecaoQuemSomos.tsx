@@ -64,7 +64,7 @@ export default function SecaoQuemSomos() {
           {/* Coluna direita: 4 cards pill */}
           <div className="w-full lg:flex-1 flex flex-col justify-center gap-3 lg:gap-4">
             {[
-              { valor: '10+', desc: 'Anos de experiência da Biruta Filmes' },
+              { valor: '17', desc: 'Anos de experiência da Biruta Filmes' },
               { valor: '100%', desc: 'Comprometida com prazo e entrega' },
               { valor: '∞ formatos', desc: 'Do reels ao formato de TV' },
             ].map((item, i) => (
