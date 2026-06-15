@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 
@@ -124,6 +124,25 @@ const PORTFOLIO_ITEMS: MasonryItem[] = [
   { id: 'nazca', frames: [p08f1, p08f2, p08f3] },
 ]
 
+// Distribui os itens em N colunas sempre escolhendo a coluna mais curta no momento.
+// Usa a proporção real (altura/largura) de cada imagem como peso de altura,
+// garantindo empacotamento justo (sem buracos) e colunas equilibradas.
+function distribuirColunas(items: MasonryItem[], numCols: number): MasonryItem[][] {
+  const cols: MasonryItem[][] = Array.from({ length: numCols }, () => [])
+  const alturas = new Array(numCols).fill(0)
+  for (const item of items) {
+    const f = item.frames[0]
+    const peso = f.height / f.width
+    let menor = 0
+    for (let i = 1; i < numCols; i++) {
+      if (alturas[i] < alturas[menor]) menor = i
+    }
+    cols[menor].push(item)
+    alturas[menor] += peso
+  }
+  return cols
+}
+
 function MasonryCard({ item }: { item: MasonryItem }) {
   const [activeFrame, setActiveFrame] = useState(0)
 
@@ -142,7 +161,7 @@ function MasonryCard({ item }: { item: MasonryItem }) {
 
   return (
     <div
-      className="relative w-full rounded-2xl overflow-hidden mb-4 group cursor-pointer break-inside-avoid"
+      className="relative w-full rounded-2xl overflow-hidden group cursor-pointer"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -187,6 +206,19 @@ export default function SecaoMasonry() {
   const sectionAnimation = useScrollAnimation({ delay: 100 })
   const videoRef = useRef<HTMLVideoElement>(null)
   const videoContainerRef = useRef<HTMLDivElement>(null)
+  const [colunas, setColunas] = useState(3)
+
+  useEffect(() => {
+    const calc = () => {
+      const w = window.innerWidth
+      setColunas(w < 768 ? 1 : w < 1024 ? 2 : 3)
+    }
+    calc()
+    window.addEventListener('resize', calc)
+    return () => window.removeEventListener('resize', calc)
+  }, [])
+
+  const buckets = useMemo(() => distribuirColunas(PORTFOLIO_ITEMS, colunas), [colunas])
 
   useEffect(() => {
     const container = videoContainerRef.current
@@ -284,9 +316,13 @@ export default function SecaoMasonry() {
           <span className="text-white/50 text-xs font-semibold tracking-[0.2em] uppercase mb-6 block">
             Portfolio pictures
           </span>
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-4">
-            {PORTFOLIO_ITEMS.map(item => (
-              <MasonryCard key={item.id} item={item} />
+          <div className="flex gap-4 items-start">
+            {buckets.map((coluna, ci) => (
+              <div key={ci} className="flex flex-col gap-4 flex-1 min-w-0">
+                {coluna.map(item => (
+                  <MasonryCard key={item.id} item={item} />
+                ))}
+              </div>
             ))}
           </div>
         </div>

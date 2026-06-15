@@ -135,7 +135,7 @@ export default function SecaoTime() {
         </div>
 
         {/* Grid de cards */}
-        <div className="flex flex-wrap gap-6 justify-center lg:justify-start items-stretch">
+        <div className="flex flex-wrap gap-6 justify-center items-stretch">
           {MEMBROS.map((m, i) => (
             <div
               key={m.nome}
