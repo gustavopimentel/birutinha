@@ -90,6 +90,11 @@ import val1 from '../assets/images/mansory portifolio/Valda/Valda 01.png'
 import val2 from '../assets/images/mansory portifolio/Valda/Valda 02.png'
 import val3 from '../assets/images/mansory portifolio/Valda/Valda 03.png'
 
+// O Outro Lado da Moema
+import moema1 from '../assets/images/mansory portifolio/outro-lado-da-moema/WhatsApp Image 2026-06-15 at 11.18.47.jpeg'
+import moema2 from '../assets/images/mansory portifolio/outro-lado-da-moema/WhatsApp Image 2026-06-15 at 11.18.47 (1).jpeg'
+import moema3 from '../assets/images/mansory portifolio/outro-lado-da-moema/WhatsApp Image 2026-06-15 at 11.18.48.jpeg'
+
 interface MasonryItem {
   id: string
   frames: StaticImageData[]
@@ -98,6 +103,7 @@ interface MasonryItem {
 const FRAME_SIZES = '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
 
 const PORTFOLIO_ITEMS: MasonryItem[] = [
+  { id: 'outro-lado-moema', frames: [moema1, moema2, moema3] },
   { id: 'ballantines', frames: [bal1, bal2] },
   { id: 'electrolux', frames: [ele1, ele2, ele3] },
   { id: 'fumasil', frames: [fum1, fum2] },
