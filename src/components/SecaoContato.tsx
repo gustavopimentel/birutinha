@@ -49,7 +49,7 @@ export default function SecaoContato() {
           style={{ transitionDelay: '600ms' }}
         >
           <a
-            href="mailto:contato@birutinha.com.br"
+            href="mailto:birutinha@birutafilmes.com.br"
             className="flex items-center gap-2 bg-white text-[#696beb] font-bold text-sm px-8 py-4 rounded-full hover:bg-white/90 transition-colors"
           >
             Mandar e-mail
@@ -75,7 +75,7 @@ export default function SecaoContato() {
               E-mail
             </span>
             <span className="text-white/80 text-lg">
-              contato@birutinha.com.br
+              birutinha@birutafilmes.com.br
             </span>
           </div>
           <div className="text-center">

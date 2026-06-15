@@ -7,10 +7,10 @@ interface CardTimeProps {
   foto: StaticImageData
   nome: string
   cargo: string
-  reelsHref?: string
+  onReels?: () => void
 }
 
-export default function CardTime({ foto, nome, cargo, reelsHref = '#' }: CardTimeProps) {
+export default function CardTime({ foto, nome, cargo, onReels }: CardTimeProps) {
   const cardRef = useRef<HTMLDivElement>(null)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
   const [leaving, setLeaving] = useState(false)
@@ -112,26 +112,32 @@ export default function CardTime({ foto, nome, cargo, reelsHref = '#' }: CardTim
         </h3>
 
         {/* Reels */}
-        <a
-          href={reelsHref}
-          style={{
-            color: '#fff',
-            fontSize: 14,
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            textDecoration: 'none',
-            transition: leaving ? 'transform 0.6s ease-out' : 'transform 0.15s ease-out',
-            transform: `translateX(${t.x * -6}px) translateY(${t.y * 8}px)`,
-          }}
-        >
-          reels
-          <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 20, height: 20, borderRadius: '50%', background: 'rgba(255,255,255,0.25)' }}>
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </span>
-        </a>
+        {onReels && (
+          <button
+            type="button"
+            onClick={onReels}
+            style={{
+              color: '#fff',
+              fontSize: 14,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              transition: leaving ? 'transform 0.6s ease-out' : 'transform 0.15s ease-out',
+              transform: `translateX(${t.x * -6}px) translateY(${t.y * 8}px)`,
+            }}
+          >
+            reels
+            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 20, height: 20, borderRadius: '50%', background: 'rgba(255,255,255,0.25)' }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </span>
+          </button>
+        )}
       </div>
     </div>
   )

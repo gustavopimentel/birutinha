@@ -1,8 +1,9 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import CardTime from './CardTime'
+import ModalReel from './ModalReel'
 import peixinhoSvg from '../assets/images/home/peixinho.svg'
 
 import guil from '../assets/images/time/Guil Valente.png'
@@ -33,17 +34,20 @@ const PEIXINHOS: PeixinhoConfig[] = [
   { size: 90,  top: '22%', speed: 0.45, blur: 5,  opacity: 0.10, phase: 90,  flip: false },
 ]
 
+const REEL_BASE = 'https://scxsixaagkaeeqtvhfuj.supabase.co/storage/v1/object/public/reels'
+
 const MEMBROS = [
-  { foto: guil,     nome: 'Guil Valente',          cargo: 'Diretor de IA e Live Action' },
-  { foto: guto,     nome: 'Guto Gomes',            cargo: 'Diretor' },
-  { foto: giovanna, nome: 'Giovanna Postiglione',  cargo: 'Diretora' },
-  { foto: dani,     nome: 'Dani Libardi',          cargo: 'Diretora' },
+  { foto: guil,     nome: 'Guil Valente',          cargo: 'Diretor de IA e Live Action', reel: `${REEL_BASE}/guil-valente.mp4` },
+  { foto: guto,     nome: 'Guto Gomes',            cargo: 'Diretor',                      reel: `${REEL_BASE}/guto-gomes.mp4` },
+  { foto: giovanna, nome: 'Giovanna Postiglione',  cargo: 'Diretora',                     reel: '' },
+  { foto: dani,     nome: 'Dani Libardi',          cargo: 'Diretora',                     reel: `${REEL_BASE}/dani-libardi.mp4` },
 ]
 
 export default function SecaoTime() {
   const sectionAnimation = useScrollAnimation({ delay: 100 })
   const isVisible = sectionAnimation.isVisible
   const sectionRef = useRef<HTMLElement>(null)
+  const [reel, setReel] = useState<{ url: string; nome: string } | null>(null)
   const decorRefs = useRef<(HTMLImageElement | null)[]>([])
   const posRef = useRef<number[]>(PEIXINHOS.map(p => p.phase))
   const rafRef = useRef(0)
@@ -140,11 +144,23 @@ export default function SecaoTime() {
               }`}
               style={{ transitionDelay: `${300 + i * 100}ms` }}
             >
-              <CardTime foto={m.foto} nome={m.nome} cargo={m.cargo} />
+              <CardTime
+                foto={m.foto}
+                nome={m.nome}
+                cargo={m.cargo}
+                onReels={m.reel ? () => setReel({ url: m.reel, nome: m.nome }) : undefined}
+              />
             </div>
           ))}
         </div>
       </div>
+
+      <ModalReel
+        isOpen={!!reel}
+        onClose={() => setReel(null)}
+        reelUrl={reel?.url}
+        diretorNome={reel?.nome ?? ''}
+      />
     </section>
   )
 }

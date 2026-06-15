@@ -29,6 +29,9 @@ export default function ModalReel({
     ? `https://player.vimeo.com/video/${vimeoId}?autoplay=1&controls=1`
     : null
 
+  // Vídeo direto (MP4) quando não for Vimeo
+  const isVideoFile = !vimeoId && /\.(mp4|webm|mov)(\?.*)?$/i.test(reelUrl)
+
   return (
     <>
       {/* Overlay com blur escuro */}
@@ -58,6 +61,17 @@ export default function ModalReel({
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
+                title={`Reel de ${diretorNome}`}
+              />
+            </div>
+          ) : isVideoFile ? (
+            <div className="w-full h-full rounded-3xl overflow-hidden bg-black">
+              <video
+                src={reelUrl}
+                className="w-full h-full"
+                controls
+                autoPlay
+                playsInline
                 title={`Reel de ${diretorNome}`}
               />
             </div>

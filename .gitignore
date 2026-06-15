@@ -35,3 +35,6 @@ next-env.d.ts
 .env.local
 .env.production.local
 .env.development.local
+
+# Arquivos de video brutos/comprimidos (hospedados no Supabase Storage)
+/reels/
