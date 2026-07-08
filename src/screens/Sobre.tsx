@@ -149,7 +149,7 @@ export default function Sobre() {
                 foto={fernandaFoto}
                 nome="Fernanda Carpinelli"
                 descricao="Sócia e responsável pela gestão administrativa e orçamentária da Biruta Filmes. Fernanda possui visão de negócios moldada por sua larga experiência no mercado financeiro, prevendo os mais diversos cenários econômicos para gerenciar a produtora com solidez e segurança."
-                email="fernanda@birutinha.com.br"
+                email="fernanda@birutinhafilmes.com.br"
                 icone={iconeLaranja.src}
                 containerRef={(ref) => { containerRefs.current[0] = ref }}
                 maxHeight={maxHeight}
@@ -164,7 +164,7 @@ export default function Sobre() {
                 foto={fredFoto}
                 nome="Fred Farah"
                 descricao="Traz uma vasta vivência em publicidade, propaganda, rádio, cinema e TV. Já ajudou a construir e consolidar grandes marcas e produtos, trabalhando em conjunto com algumas das melhores agências do país. Além de sócio, atua como Diretor e Produtor Executivo na Biruta Filmes."
-                email="fred@birutinha.com.br"
+                email="fred@birutinhafilmes.com.br"
                 icone={iconeAzul.src}
                 containerRef={(ref) => { containerRefs.current[1] = ref }}
                 maxHeight={maxHeight}
@@ -179,7 +179,7 @@ export default function Sobre() {
                 foto={nilviaFoto}
                 nome="Nilvia Centeno"
                 descricao="Nilvia já atuou como Agência, Cliente e Produtora e como Gerente de Operações traz à Biruta Filmes um olhar abrangente e repleto de conhecimento sobre todo o processo de produção, que resulta na excelência de cada projeto e em maior engajamento do público-alvo."
-                email="nilvia@birutinha.com.br"
+                email="nilvia@birutinhafilmes.com.br"
                 icone={iconeRosa.src}
                 containerRef={(ref) => { containerRefs.current[2] = ref }}
                 maxHeight={maxHeight}

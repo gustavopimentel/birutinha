@@ -4,7 +4,7 @@ import MenuLateral from '@/components/MenuLateral'
 import GradientBackground from '@/components/GradientBackground'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://birutinha.com.br'),
+  metadataBase: new URL('https://www.birutinhafilmes.com.br'),
   title: {
     default: 'Birutinha Filmes — Produtora audiovisual ágil e criativa',
     template: '%s | Birutinha Filmes',

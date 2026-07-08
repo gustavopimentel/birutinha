@@ -115,8 +115,8 @@ export default function Contato() {
             <InfoContato
               icon={<Mail size={32} />}
               titulo="E-mail"
-              conteudo="contato@birutinha.com.br"
-              link="mailto:contato@birutinha.com.br"
+              conteudo="contato@birutinhafilmes.com.br"
+              link="mailto:contato@birutinhafilmes.com.br"
               delay={0}
               isVisible={infoVisible[0]}
             />
